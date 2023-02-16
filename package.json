@@ -1,0 +1,25 @@
+{
+  "name": "vue3-ppt",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "zhangyuanliang",
+    "url": "https://www.github.com/zhangyuanliang"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangyuanliang/vue3-slidev.git"
+  },
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.20.0",
+    "@slidev/theme-apple-basic": "^0.19.0",
+    "@slidev/theme-default": "^0.19.0",
+    "@slidev/theme-seriph": "^0.19.0",
+    "playwright-chromium": "^1.12.2"
+  }
+}
