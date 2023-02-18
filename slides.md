@@ -8,7 +8,10 @@ highlighter: shiki
 # class: 'text-center'
 layout: cover
 fonts:
-  sans: 'Source Sans Pro'
+  # 与 css 中的 font-family 一致，你可以使用 `,` 来分割字体名，便于降级
+  sans: 'Helvetica Neue,Robot'
+  # 将 'Helvetica Neue' 作为本地字体
+  local: 'Helvetica Neue'
 ---
 
 # Vue 3 > Vue 2 + 1
@@ -17,7 +20,6 @@ fonts:
 <style>
 h1 {
   background-color: #2B90B6;
-  /* background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%); */
   background-image: linear-gradient(315deg,#42d392 25%,#647eff);
   background-size: 100%;
   -webkit-background-clip: text;
@@ -36,7 +38,6 @@ class: my-cool-content-on-the-right
 <style>
 h1 {
   background-color: #2B90B6;
-  /* background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%); */
   background-image: linear-gradient(315deg,#42d392 25%,#647eff);
   background-size: 100%;
   -webkit-background-clip: text;
@@ -55,7 +56,7 @@ h1 {
  
 <div v-click="1" class="mt-8">
 <div class="mb-4 font-bold">
-传统的 vue2:
+传统的 vue2 :
 </div>
 
 * 逻辑比较分散，代码被强制拆分在了不同的选项中
@@ -66,7 +67,7 @@ h1 {
 
 <div v-click="2" class="mt-4">
 <div class="mb-4 font-bold">
-  对比 vue3<span class="text-red-500 text-xl">*</span>:
+  对比 vue3<span class="text-red-500 text-xl">*</span> :
 </div>
 
 * 逻辑分明，同一个逻辑关注点相关的代码被归为了一组
@@ -75,71 +76,150 @@ h1 {
 
 </div>
 
-<div v-click="3" class="absolute bottom-4 right-3 text-gray-400">
-  内容来源：vue3官网
+<div class="absolute bottom-4 right-3">
+
+<span class="text-gray-400">内容来源：</span>[vue3官网](https://cn.vuejs.org/guide/extras/composition-api-faq.html#more-flexible-code-organization)
+
 </div>
 
 ---
 layout: section
-
 ---
 
 # 开启 Vue3 的世界
 ## 组合式 API (Composition API) 
 
 ---
-layout: big-bullets
-heading: Alles auf Typescript
----
 
-* Typescript ist überall
-* Types können in IDEs auch bei JS code unterstützen
-* Manuelle Pflege von Type in Vue 2
-  * Mühsam
-  * Fehleranfällig
-  * unvollständig
-* Types im Sourcecode machen Ihn für<br>Contributors besser navigierbar
+# Vue3.0 新特性介绍
 
----
-layout: 'image-left'
-image: '/vue-monorepo.png'
----
-
-# Neue Source-Struktur
-
-* Monorepo
-* Packages mit klaren APIs und Verantwortlichkeiten
-* Einfacher für neue Contributors
-
-**Custom Renderer**
-
-* core compiler DOM-unabhängig
-* Community kann eigene Renderer bauen
-* Bsp: <a href="https://troisjs.github.io/">Trois JS</a>
-* "VueNative" wäre nun möglich
-
----
-title: Trois JS
----
-
-<iframe src="https://troisjs.github.io/examples/demos/1.html" width="900" height="500"></iframe>
-
----
-layout: big-bullets
-heading: Performance - Compiler & VirtualDOM
----
-
-<div class="mt-8 min-h-1 text-2xl font-bold">
-Compiler
+<div class="flex">
+<div class="flex-1">
+```html {monaco}
+<template>
+  <button @click="increment">
+    {{ state.count }}
+  </button>
+  <div>fragment</div>
+</template>
+<script>
+import { reactive } from 'vue'
+export default {
+  setup() {
+    const state = reactive({ count: 0 })
+    function increment() {
+      state.count++
+    }
+    // 不要忘记同时暴露 increment 函数
+    return {
+      state,
+      increment
+    }
+  }
+}
+</script>
+<style></style>
+```
 </div>
 
-<div class="mt-4">
+<div class="flex-1 ml-4">
 
-* Blocks - flache Arrays mit _dynamischen_ Elementen
-* Compiler Flags für _dynamische_ Elemente
-* Hoisting von _statischen Elementen
+1. 重写双向数据绑定
+    * 基于Proxy
+2. VDOM性能瓶颈
+    * 只对比带有标记的,减少了非动态内容的对比消耗
+3. Fragments
+4. Tree-Shaking的支持
+    * 全局 API 进行分块。不使用某些功能，它们将不包含在你的基础包中
+5. Composition API
+    * Setup 语法糖式编程，一会详细讲解
 
 </div>
+
+</div>
+
+---
+layout: two-cols
+class: vite-project
+---
+<style>
+  .vite-project ul {
+    @apply !list-disc;
+  }
+  .vite-project li::marker {
+    @apply inline-block text-vgreen;
+  }
+</style>
+# vue3 + vite 项目目录结构
+
+* public 下面的不会被编译 可以存放静态资源
+
+* assets 可以存放可编译的静态资源
+
+* components 用来存放我们的组件
+
+* App.vue 是全局组件
+
+* main.js 全局的js文件
+
+* index.html 入口文件
+
+* vite.config.js vite的配置文件
+
+::right::
+
+<div class="flex justify-center">
+<img src="/vite-project.png" class="w-38 rounded">
+<img src="/vite-project-2.png" class="h-100 rounded ml-2">
+</div>
+
+---
+layout: two-cols
+class: vite-project
+---
+# vue3 指令
+
+* v-text
+* v-html
+* v-show
+* v-if
+* v-for
+* v-on
+* v-bind
+* v-model
+* v-slot
+* v-pre
+* v-once
+* v-memo <Badge type="warn">new</Badge>
+* v-cloak
+
+::right::
+
+```html{all|9}
+<template>
+  <div v-memo="[valueA, valueB]">
+    <ul>
+      <li v-for="it in list">{{it}}</li>
+    </ul>
+  </div>
+  <div>
+    <span>{{list}}</span>
+    <button @click="add">test</button>
+  </div>
+</template>
+<script setup>
+import { ref } from 'vue'
+
+const valueA = ref('A')
+const valueB = ref('B')
+
+const list = ref([1, 2, 3, 4, 5])
+
+function add() {
+  list.value.push('new')
+}
+</script>
+```
 
 <div v-click class="mt-8 min-h-1 text-2xl font-bold">
 Virtual DOM

@@ -9,9 +9,9 @@ export default {
 <template>
   <div class="slidev-layout section">
     <div class="absolute inset-0 z-1">
-      <transition appear name="section">
+      <!-- <transition appear name="section"> -->
         <img src="/bg-section.svg" alt="" v-if="$slidev.nav.currentLayout === 'section'" class="opacity-80">
-      </transition>
+      <!-- </transition> -->
     </div>
     
     <div class="flex flex-col justify-center h-full z-2">
