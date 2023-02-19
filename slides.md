@@ -169,8 +169,13 @@ class: vite-project
 ::right::
 
 <div class="flex justify-center">
+
 <img src="/vite-project.png" class="w-38 rounded">
+
+<div v-click="2">
 <img src="/vite-project-2.png" class="h-100 rounded ml-2">
+</div>
+
 </div>
 
 ---
@@ -195,221 +200,313 @@ class: vite-project
 
 ::right::
 
-```html{all|9}
+## v-meno 例子：
+
+```html{all|7|16-21}
 <template>
   <div v-memo="[valueA, valueB]">
-    <ul>
-      <li v-for="it in list">{{it}}</li>
-    </ul>
+    <div>{{list}}</div>
   </div>
-  <div>
-    <span>{{list}}</span>
-    <button @click="add">test</button>
-  </div>
+  <div>{{list}}</div>
+  <button @click="add">新增</button>
+  <button @click="changeMeno">changeMeno</button>
 </template>
 <script setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const valueA = ref('A')
-const valueB = ref('B')
+  const valueA = ref(0)
+  const valueB = ref(0)
+  const list = ref([1, 2, 3, 4, 5])
 
-const list = ref([1, 2, 3, 4, 5])
-
-function add() {
-  list.value.push('new')
-}
+  function add() {
+    list.value = [
+      ...list.value,
+      ++ list.value.length
+    ]
+  }
+  function changeMeno() {
+    ++valueA.value
+  }
 </script>
 ```
 
-<div v-click class="mt-8 min-h-1 text-2xl font-bold">
-Virtual DOM
-</div>
-
-<div v-after class="mt-4">
-
-* VNodes sind nun flache Objekte
-* geringerer Memory Footprint
-* schnelleres Diffing
-
-</div>
-
 ---
 
-# Ein Blick auf den Compiler
+# Vue SFC Playground
 
 <div class="overflow-hidden absolute top-24 left-3 text-center">
-  <iframe src="https://sfc.vuejs.org/#eyJBcHAudnVlIjoiPHRlbXBsYXRlPlxuICA8aDE+V2VsY29tZSE8L2gxPlxuICA8ZGl2IGNsYXNzPVwic3RhdGljXCI+XG4gICAgPE15Q29tcG9uZW50XG4gICAgICBwcm9wMT1cInN0YXRpY1wiXG4gICAgICA6c3VidGl0bGU9XCJzdWJ0aXRsZVwiXG4gICAgPlxuICAgICAgPHNwYW4+IHt7IG1zZyB9fTwvc3Bhbj5cbiAgICA8L015Q29tcG9uZW50PlxuICA8L2Rpdj5cbjwvdGVtcGxhdGU+XG5cbjxzY3JpcHQ+XG4gIGltcG9ydCB7IHJlZiB9IGZyb20gJ3Z1ZSdcbiAgaW1wb3J0IE15Q29tcG9uZW50IGZyb20gJy4vTXlDb21wb25lbnQudnVlJ1xuICBcbiAgZXhwb3J0IGRlZmF1bHQge1xuICAgIGNvbXBvbmVudHM6IHtcbiAgICAgIE15Q29tcG9uZW50LFxuICAgIH0sXG4gICAgc2V0dXAoKSB7XG5cdFx0XHRjb25zdCBtc2cgPSAnSGVsbG8gV29ybGQhJ1xuXHRcdFx0Y29uc3Qgc3VidGl0bGUgPSByZWYoJ1RoaXMgaXMgdGhlIHN1YnRpdGxlJylcbiAgICAgIHJldHVybiB7XG4gICAgICAgIG1zZywgc3VidGl0bGVcbiAgICAgIH1cbiAgICB9XG4gIH1cbjwvc2NyaXB0PiIsIk15Q29tcG9uZW50LnZ1ZSI6Ijx0ZW1wbGF0ZT5cbiAgPHNsb3QgLz5cbjwvdGVtcGxhdGU+XG48c2NyaXB0PlxuZXhwb3J0IGRlZmF1bHQge1xuICBwcm9wczogWydwcm9wMScsICdzdWJ0aXRsZSddXG59XG48L3NjcmlwdD4ifQ=="
+  <iframe src="https://sfc.vuejs.org/#eNp9UktugzAQvcrImyYCTL+biERN9j1BnAWBISEFG9mGLhDX6LKLnqCXas9RGxORpmlXtud9Ru/JLVlWFW1qJDMSaSyrIta4YBwgSvMGmqDEUswZWTdxUePSh/5cbRjpSY62aNsiV7rrotC+evV4+4OwrbUWHB6TIk+ezYY4TY3p1+vH5/tbFDr0MjPZx3yHT8iFEYyPE1EUnkSJVCLzSoNCXVe9Y15WQmpoQWIGHWRSlHBlOrhi3MKJ4Eq7oEuYW9LkenoGrC4ANuIwXt/4cOvDnQ/3PjxsDMnSsponOjdRTNbJFFrXoJXR3tSI124GQCkdAf849bwTOi2Q7/TeYRt7dD+2jNWMyzzP5XIOgyYKXUUL4hPXTVDGFT0owc236JVsABQjs6MXI6Yz+2Zkr3WlZmGossR+poOiQu5Cc6Oy5jovkaIqg60ULwqlMWZkiNR7hGbYoAwk8hQlyv88z6i/fIdIHem+Ack79pc="
     width="960"
     height="460"
     class="-mt-14 mb-2"
 ></iframe>
 <a 
 class="text-blue-600 underline"
-href="https://sfc.vuejs.org/#eyJBcHAudnVlIjoiPHRlbXBsYXRlPlxuICA8aDE+V2VsY29tZSE8L2gxPlxuICA8ZGl2IGNsYXNzPVwic3RhdGljXCI+XG4gICAgPE15Q29tcG9uZW50XG4gICAgICBwcm9wMT1cInN0YXRpY1wiXG4gICAgICA6c3VidGl0bGU9XCJzdWJ0aXRsZVwiXG4gICAgPlxuICAgICAgPHNwYW4+IHt7IG1zZyB9fTwvc3Bhbj5cbiAgICA8L015Q29tcG9uZW50PlxuICA8L2Rpdj5cbjwvdGVtcGxhdGU+XG5cbjxzY3JpcHQ+XG4gIGltcG9ydCB7IHJlZiB9IGZyb20gJ3Z1ZSdcbiAgaW1wb3J0IE15Q29tcG9uZW50IGZyb20gJy4vTXlDb21wb25lbnQudnVlJ1xuICBcbiAgZXhwb3J0IGRlZmF1bHQge1xuICAgIGNvbXBvbmVudHM6IHtcbiAgICAgIE15Q29tcG9uZW50LFxuICAgIH0sXG4gICAgc2V0dXAoKSB7XG5cdFx0XHRjb25zdCBtc2cgPSAnSGVsbG8gV29ybGQhJ1xuXHRcdFx0Y29uc3Qgc3VidGl0bGUgPSByZWYoJ1RoaXMgaXMgdGhlIHN1YnRpdGxlJylcbiAgICAgIHJldHVybiB7XG4gICAgICAgIG1zZywgc3VidGl0bGVcbiAgICAgIH1cbiAgICB9XG4gIH1cbjwvc2NyaXB0PiIsIk15Q29tcG9uZW50LnZ1ZSI6Ijx0ZW1wbGF0ZT5cbiAgPHNsb3QgLz5cbjwvdGVtcGxhdGU+XG48c2NyaXB0PlxuZXhwb3J0IGRlZmF1bHQge1xuICBwcm9wczogWydwcm9wMScsICdzdWJ0aXRsZSddXG59XG48L3NjcmlwdD4ifQ=="
+href="https://sfc.vuejs.org/#eNp9UktugzAQvcrImyYCTL+biERN9j1BnAWBISEFG9mGLhDX6LKLnqCXas9RGxORpmlXtud9Ru/JLVlWFW1qJDMSaSyrIta4YBwgSvMGmqDEUswZWTdxUePSh/5cbRjpSY62aNsiV7rrotC+evV4+4OwrbUWHB6TIk+ezYY4TY3p1+vH5/tbFDr0MjPZx3yHT8iFEYyPE1EUnkSJVCLzSoNCXVe9Y15WQmpoQWIGHWRSlHBlOrhi3MKJ4Eq7oEuYW9LkenoGrC4ANuIwXt/4cOvDnQ/3PjxsDMnSsponOjdRTNbJFFrXoJXR3tSI124GQCkdAf849bwTOi2Q7/TeYRt7dD+2jNWMyzzP5XIOgyYKXUUL4hPXTVDGFT0owc236JVsABQjs6MXI6Yz+2Zkr3WlZmGossR+poOiQu5Cc6Oy5jovkaIqg60ULwqlMWZkiNR7hGbYoAwk8hQlyv88z6i/fIdIHem+Ack79pc="
 >
 sfc.vuejs.org</a>
 </div>
 
 ---
 
-# Wo steht das Vue Framework?
-Offizielle Libraries
+# 响应式基础
+
+reactive 和 ref
 
 <div class="mt-4 min-h-1"></div>
 
 <div class="flex">
   <div class="flex-grow">
 
-  **Stable**
+  **声明响应式状态**
 
-  * Vue 3.0 (_18.09.2020_)
-  * Vue CLI (Vue 3 Support) (_18.09.2020_)
-  * eslint-plugin-vue 7.0 (_30.09.2020_)
-  * vue-loader 16.0 (_25.11.2020_)
-  * Vue Router 4.0 (_07.12.2020_)
-  * Vuex 4.0 (_02.02.2021_)
+  ```html
+  <script setup>
+  import { reactive } from 'vue'
 
+  const state = reactive({ count: 0 })
+
+  function increment() {
+    state.count++
+  }
+  </script>
+
+  <template>
+    <button @click="increment">
+      {{ state.count }}
+    </button>
+  </template>
+  ```
   </div>
 
-  <div v-click class="flex-grow">
+  <div v-click class="flex-grow mx-2">
 
-  **Release Candidate**
-  * @vue/test-utils - 2.0.0-rc.6
+  **reactive 的局限性**
+
+  ```js
+  const state = reactive({ count: 0 })
+
+  // n 是一个局部变量，同 state.count
+  // 失去响应性连接
+  let n = state.count
+  // 不影响原始的 state
+  n++
+
+  // count 也和 state.count 失去了响应性连接
+  let { count } = state
+  // 不会影响原始的 state
+  count++
+
+  // 该函数接收一个普通数字，并且
+  // 将无法跟踪 state.count 的变化
+  callSomeFunction(state.count)
+  ```
   
   </div>
 
   <div v-click class="flex-grow">
 
-  **Beta**
+  **用 ref 定义响应式变量**
 
-  * vue-devtools 6.0.0-beta.11
-  * rollup-plugin-vue: 6.0.0-beta.11
+  ```js
+  import { ref } from 'vue'
+
+  const count = ref(0)
+  console.log(count) // { value: 0 }
+  console.log(count.value) // 0
+
+  count.value++
+  console.log(count.value) // 1
+  ```
   </div>
-
-</div>
-
-<hr v-click class="border-t-2 border-vgreen w-xl mt-8">
-<div v-after class="mt-4">
-
-* Offizielles Ökosystem fast vollständig stable
-* Q1/Q2 2021 wichtige Stablisierungsphase
-* Vue 3 bekam 11 Patch releases und erstes Minor Release 3.1 (07.06.2021)
 
 </div>
 
 ---
 
-# Community Ökosystem
+# toRef toRefs toRaw
 
-<div class="mt-12 min-h-1"></div>
+<div class="mt-10 min-h-1"></div>
 
 <div class="flex">
   <div class="flex-grow">
   
-  **Frameworks**
+  **toRef**
 
-  * Ant Design Vue - <Badge type="success">stable</Badge>
-  * Element-Plus - <Badge type="success">stable</Badge>
-  * Quasar - <Badge type="warn">Beta</Badge>
-  * Vuetify - <Badge type="warn">Alpha</Badge>
-  * Nuxt - <Badge type="info">First beta announced</Badge>
-  * ChakraUI/Vue <Badge>under development</Badge>
-
+  ```js
+  import { reactive, toRef } from 'vue'
+ 
+  const obj = reactive({
+    foo: 1,
+    bar: 1
+  })
+  
+  // bar 转化为响应式对象
+  const state = toRef(obj, 'bar')
+  
+  const change = () => {
+    state.value++
+    console.log(obj, state);
+  }
+  ```
   </div>
 
+  <div class="flex-grow mx-2">
+
+  **toRefs**
+
+  ```js
+  import { reactive, toRefs } from 'vue'
+  const obj = reactive({
+    foo: 1,
+    bar: 1
+  })
+  
+  let { foo, bar } = toRefs(obj)
+  
+  foo.value++
+  console.log(foo, bar);
+  ```
+  </div>
+  <div class="flex-grow">
+  
+  **toRaw**
+
+  ```js
+  import { reactive, toRaw } from 'vue'
+ 
+  const obj = reactive({
+    foo: 1,
+    bar: 1
+  })
+  
+  // 响应式对象转化为普通对象
+  const state = toRaw(obj)
+  
+  const change = () => {
+    console.log(obj, state);
+  }
+  ```
+  </div>
+</div>
+
+---
+
+# computed 用法
+ 
+计算属性就是当依赖的属性的值发生变化的时候，才会触发他的更改，如果依赖的值，不发生变化的时候，使用的是缓存中的属性值。
+
+<div class="mt-12 min-h-1 !text-3xl" ></div>
+<div class="flex">
+  <div class="flex-grow mr-1">
+
+  ```js
+  import { computed, reactive, ref } from 'vue'
+
+  let price = ref(0)
+  
+  let m = computed(()=>{
+    return `$` + price.value
+  })
+  
+  price.value = 500
+  ```
+
+  </div>
+  <div class="flex-grow ml-1">
+
+  ```html
+  <template>
+    <div>{{ mul }}</div>
+    <div @click="mul = 100">click</div>
+  </template>
+  
+  <script setup>
+    import { computed, ref } from 'vue'
+    let price = ref(1)
+    let mul = computed({
+      get: () => {
+        return price.value
+      },
+      set: (value) => {
+        price.value = 'set' + value
+      }
+    })
+  </script>
+  ```
+
+  </div>
+</div>
+---
+
+# watch 用法
+ 
+侦听一个或多个响应式数据源，并在数据源变化时调用所给的回调函数。
+
+<div class="mt-8 min-h-1 !text-3xl" ></div>
+<div class="flex">
+  <div class="flex-grow mr-2">
+
+  **侦听一个 ref：**
+
+  ```js
+  const count = ref(0)
+
+  watch(count, (count, prevCount) => {
+    /* ... */
+  }, {
+    // 在侦听器创建时立即触发回调。
+    immediate：false,
+    // 如果源是对象，强制深度遍历，以便在深层级变更时触发回调。
+    deep: 默认：false,
+    // 侦听器将在组件渲染之前执行 'pre' | 'post' | 'sync'
+    flush: 'pre'
+  })
+  ```
+
+  </div>
   <div class="flex-grow">
 
-  **Integrationen**
+  **侦听一个 getter 函数：**
 
-  * VSCode (Volar)
-  * Jetbrains Webstorm / PHPStorm etc
-  * Storybook <code>v6.3</code>
-  * Cypress
-  * Vite
+  ```js
+  const state = reactive({ count: 0 })
+  watch(
+    () => state.count,
+    (count, prevCount) => {
+      /* ... */
+    }
+  )
+  ```
 
   </div>
 </div>
 
 ---
 
-# Next -> Latest
- 
-<div class="mt-12 min-h-1 !text-3xl" ></div>
+<style>
+  .slidev-layout td, .slidev-layout th {
+    padding-top: 0.56rem;
+    padding-bottom: 0.56rem;
+  }
+  theader {
+    background: #e5e7eb
+  }
+</style>
+# 生命周期
 
-Bisher:
+<div class="mt-1"></div>
 
-```bash
-npm i vue@next
-```
-
-Ab Q3-2021:
-
-```bash
-npm i vue
-```
-
-
----
-
-# Vue 3 Contributions
-
-<div class="flex mt-12 gap-12">
-  <div class="w-1/2 text-center">
-  
-  <h2>Vue 2</h2>
-  <span class="italic text-sm">seit 11.06.2016</span>
-
-  <span class="text-4xl font-bold">1.036</span><br> merged PRs
-  <hr class="w-9/12 my-8">
-  <span class="text-4xl font-bold">399</span><br> Contributors
-
-  
-  </div>
-  <div v-click class="w-1/2 text-center">
-
-  <h2>Vue 3</h2>
-  <span class="italic text-sm">seit 03.01.2020</span>
-
-  <span class="text-4xl font-bold">1.372</span><br> merged PRs
-  <hr class="w-9/12 my-8">
-  <span class="text-4xl font-bold">234</span><br> Contributors
-  
-  </div>
-</div>
-
-<hr v-click class="mt-8 mb-12">
-
-<h2 v-after class="text-center">
-  PS: Vue 2 wurde gerade 5 Jahre alt! 🥳
-</h2>
-
----
-layout: section
----
-
-# Ein "kleines" Major Release
-Für Developer
-
----
-
-# Was hat sich _genau_ geändert?
-
-<div class="mt-12 min-h-1"></div>
-
-* Es gibt 33 Einträge im Migration Guide
-* davon sind 3 aber neue Funktionen (Fragments, Suspense)
-* Die meisten "Breaking Changes" sind "one-liner" Fixes.
-
-
-<div class="mt-8 min-h-1"></div>
-<span v-click class="text-2xl">Was bedeutet das für Developer?</span>
-
-<div v-click class="mt-4">
-
-* Die Migration (fast) jedes Breaking Change ist *einfach*
-* Aber die Migration _aller_ Changes ist *zeitaufwändig*
-
-</div>
+| 选项式 API | setup语法糖 |
+| ------- | ------- |
+|    beforeCreate     |    无     |
+|    created     |    无     |
+|    beforeMount     |    onBeforeMount     |
+|    mounted     |    onMounted     |
+|    beforeUpdate     |    onBeforeUpdate     |
+|    updated     |    onUpdated     |
+|    beforeUnmount     |    onBeforeUnmount     |
+|    unmounted     |    onUnmounted     |
 
 ---
 
@@ -451,333 +548,63 @@ app.mount('#app')
   </div>
 </div>
 
-<hr class="mt-4 mb-8">
-
-* Einmalige Änderungen
-* Verbesserung: Mehrere Apps auf einer Seite sind besser isoliert.
-
 ---
 
-# Lifecycle Hooks
+# RFC
 
-<div class="flex justify-between">
-  <div class="flex-grow mr-2">
-
-```html{all|9}
-<template>
-  <h1>{{ message }}</h1>
-</template>
-<script>
-export default {
-  data: () => ({
-    message
-  }),
-  beforeDestroy() {
-    console.log('Destruction imminent!')
-  }
-}
-</script>
-```
-
-  </div>
-  <div class="flex-grow">
-
-```html{all|9}
-<template>
-  <h1>{{ message }}</h1>
-</template>
-<script>
-export default {
-  data: () => ({
-    message
-  }),
-  beforeUnmount() {
-    console.log('Destruction imminent!')
-  }
-}
-</script>
-```
-
-  </div>
-</div>
-
----
-layout: section
----
-
-# `@vue/compat`
-## Migration mit der Compat Build (Vue 3.1)
-
----
-layout: big-bullets
-heading: Warum eine Migration Build?
-title: Warum eine Migration Build?
----
-
-* Migration großer Projekte nicht "an einem Wochenende"
-* Dependencies sind noch nicht alle Vue 3 kompatibel
-* Deprecation Warnings zeigen notwendige Änderungen auf.
-
----
-layout: big-bullets
-heading: Workflow - Initiale Upgrades
-title: Workflow - Initiale Upgrades
----
-
-1. Upgrade der notwendigen Dependencies
-2. Compat Mode aktivieren
-3. App starten
-4. Compiler Warnings fixen (z.B. wegen Filters)
-5. Auf Vuex `4.0` upgraden
-6. Auf VueRouter `3.0` upgraden
-
-Eure App läuft jetzt auf Vue 3 - mit Vue 2 Component Syntax! <span class="text-2xl">🤯</span>
-
----
-layout: big-bullets
-heading: Workflows für die Migration
-title: Workflows für die Migration
----
-
-<div class="mb-12 text-3xl text-center">2 Varianten:</div>
-
-1. Migration per Feature
-2. Migration per Component
-
----
-layout: default
----
-
-# Migration - per Feature
-
-<div class="flex mt-8">
-
-<div v-click class="flex-grow w-1/2 pr-2">
-
-* Ein Feature aussuchen - z.B. Lifecycle hooks
-* in jeder Component migrieren
-
-Von Vue 2:
-
-```js{2}
-export default {
-  beforeDestroy() {
-    this.doSomething()
-  }
-}
-```
-
-zu Vue 3:
-
-```js{2}
-export default {
-  beforeUnmount() {
-    this.doSomething()
-  }
-}
-```
-
-</div>
-<div v-click class="flex-grow w-1/2 border-l border-vgreen pl-2">
-
-* Anschließend das compat feature global deaktivieren
-
-```js{8-10}
-// main.js
-import { 
-createApp,
-configureCompat 
-} from 'vue'
-import App from './App.vue'
-
-configureCompat({
-  OPTIONS_BEFORE_DESTROY: false,
-})
-
-createApp(App).mount('#app')
-```
-
-</div>
-
-</div>
-
----
-
-# Migration - per Component
-
-* Alle Migrationen in einer Component vornehmen
-
-<div class="flex mt-8">
-
-<div v-click class="flex-grow w-1/2 pr-2">
-
-```js{2,4,8,11}
-export default {
-  props: ['value']
-  components: {
-    Child: () => import('./Child.vue')
-  },
-  methods: {
-    update(value) {
-      this.$emit('input', value)
-    },
-  },
-  beforeDestroy() {
-    this.doSomething()
-  }
-}
-```
-
-</div>
-<div v-click class="flex-grow w-1/2 border-l border-vgreen pl-2">
-
-```js{2-5,7-9,13,16}
-export default {
-  compatConfig: {
-    MODE: 3,
-  },
-  props: ['modelValue']
-  components: {
-    Child: defineAsyncComponent(
-      () => import('./Child.vue')
-    )
-  },
-  methods: {
-    update(value) {
-      this.$emit('update:modelValue', value)
-    },
-  },
-  beforeUnmount() {
-    this.doSomething()
-  }
-}
-```
-
-</div>
-
-</div>
-
-
----
-layout: big-bullets
-heading: Tips
-title: Tips
---- 
-
-* Ihr werdet eine **MENGE** Warnings sehen - keine Panik!
-  * Nur in development
-  * Minimaler Perf-Overhead, wettgemacht durch Vue 3 Perf-Verbesserungen
-* Migriert zuerst "find&replace" features global in allen Components
-* Migriert danach einzelne Components
-* Migriert zuletzt eure dependencies auf ihre Vue 3 versionen
-
----
-
-# Migration Build docs
-
-<iframe
-class="w-full h-9/10 mx-auto"
-src="https://v3.vuejs.org/guide/migration/migration-build.html"
-></iframe>
-
----
-layout: section
----
-
-# Mehr als ein Major Release
-## Wohin die Reise geht
-
----
-layout: big-bullets
-heading: DX - IDE Integration
-title: DX - IDE Integration
----
-
-* Derzeit 3 Extensions: Vetur, VueDX, Volar
-* Neues Fundament wird Volar sein
-* Language Server Implementation auch für andere IDEs
-* **Type Hints / Autocomplete in Templates!**
-
-<div v-click class="absolute bottom-8 w-full">
-  <img src="/volar.png" class="w-6/10">
-</div>
-
-
----
-layout: big-bullets
-heading: DX - Devtools 6.0
-title: DX - Devtools 6.0
----
-
-* Neu: Performance Messung
-* Neu: Events timeline
-* Neu: Plugin API
-
----
-
-# Performance Messung
-
-<img class="mx-auto" src="/devtools-perf1.png">
-<img class="mx-auto mt-12" src="/devtools-perf2.png">
-
----
-
-# Plugin API
-
-<img class="mx-auto" src="/pinia.png">
-<br>
-<div class="text-center">
-  <a class="text-xl text-blue-600" href="https://devtools.vuejs.org/plugin/plugins-guide.html">Plugin API Docs</a>
-</div>
-
----
-
-# RFCs - `<script setup>`
+`<script setup>`语法糖，解决Vue3.0中setup需要频繁将声明的变量、函数以及import引入的内容通过return向外暴露，才能在`<template/>`使用的问题
 
 <style>
   .slidev-layout {
     @apply !text-4xl
   }
 </style>
-<div class="flex gap-4 w-full mt-12">
-  <div class="flex-grow w-1/3">
+<div class="flex gap-4 w-full mt-6">
+  <div class="flex-grow w-1/2">
 
-  * Reduziert boilerplate
-  * Performance-Potentiale
+  ```html
+  <script>
+  import { reactive } from 'vue'
 
-  <div class="mt-12">
-    <a class="text-xl text-blue-600" href="https://github.com/vuejs/rfcs/pull/227">Link zum RFC</a>
+  export default {
+    setup() {
+      const state = reactive({ count: 0 })
+
+      function increment() {
+        state.count++
+      }
+
+      return {
+        state,
+        increment
+      }
+    }
+  }
+  </script>
+  ```
+
   </div>
-
-  </div>
-  <div class="flex-grow w-2/3">
+  <div class="flex-grow w-1/2">
 
   ```html
   <script setup>
-  import Foo from './Foo.vue'
-  import { ref, defineProps } from 'vue'
+  import { reactive } from 'vue'
 
-  const props = defineProps({
-    title: String,
-  })
+  const state = reactive({ count: 0 })
 
-  const count = ref(0)
-  const inc = () => { count.value++ }
+  function increment() {
+    state.count++
+  }
   </script>
 
-  <template>
-    <h1>{{ props.title }}</h1>
-    <Foo :count="count" @click="inc" />
-  </template>
   ```
 
   </div>
 </div>
 
-
 ---
 
-# Dieser Talk wurde mit Slidev gebaut
+# Slidev 介绍
 
 <div class="flex mt-12">
   <div class="flex-grow text-center">
@@ -789,21 +616,17 @@ title: DX - Devtools 6.0
   </div>
   <div class="flex-grow text-2xl">
 
-  <v-clicks>
+  <div v-click>
 
-  * Vite
-  * Slides mit Markdown schreiben
-  * Vue 3 Components in Markdown
-  * Presenter Mode
+  * 支持 Markdown 语法
+  * 可定制主题
+  * 对开发者友好
+  * 快速（基于vite + vue3 + windi css）
   * Recording im Browser
-  * VS Code Extension
-  * PDF Export
-  * Deployable als App
+  * VS Code 插件
+  * 导出为 PDF，甚至是可托管的单页应用程序
 
-  </v-clicks>
+  </div>
 
-  <a v-click class="text-blue-600 text-2xl" href="https://vueday-2021.linusb.org">vueday-2021.linusb.org</a>
-
-  
   </div>
 </div>
