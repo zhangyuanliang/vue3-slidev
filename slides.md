@@ -72,7 +72,7 @@ h1 {
 
 * 逻辑分明，同一个逻辑关注点相关的代码被归为了一组
 * 可读性高，无需在不同的选项块来回滚动切换
-* 可维护性高
+* 可维护性好
 
 </div>
 
@@ -127,7 +127,7 @@ export default {
 1. 重写双向数据绑定
     * 基于Proxy
 2. VDOM性能瓶颈
-    * 只对比带有标记的,减少了非动态内容的对比消耗
+    * 只对比带有标记的,减少了非动态内容的对比消耗<a class="text-blue-600" href="https://vue-next-template-explorer.netlify.app/#eyJzcmMiOiI8ZGl2PkhlbGxvIFdvcmxkPC9kaXY+XG48ZGl2PkhlbGxvIFdvcmxkPC9kaXY+XG48ZGl2PkhlbGxvIFdvcmxkPC9kaXY+XG48ZGl2PkhlbGxvIFdvcmxkPC9kaXY+XG48ZGl2PkhlbGxvIFdvcmxkPC9kaXY+XG48ZGl2IHYtZm9yPVwiaXQgaW4gWzEsMiwzLDRdXCIgOmtleT1cIml0XCIgOmNsYXNzPVwiYGl0ZW0tJHtpdH1gXCI+e3tpdH19PC9kaXY+Iiwib3B0aW9ucyI6e319">vue-next-template-explorer</a>
 3. Fragments
 4. Tree-Shaking的支持
     * 全局 API 进行分块。不使用某些功能，它们将不包含在你的基础包中
@@ -172,11 +172,77 @@ class: vite-project
 
 <img src="/vite-project.png" class="w-38 rounded">
 
-<div v-click="2">
+<div v-click="1">
 <img src="/vite-project-2.png" class="h-100 rounded ml-2">
 </div>
 
 </div>
+
+---
+
+# Globale APIs
+
+<div class="flex justify-between">
+  <div class="flex-grow mr-2">
+
+```js{all|1|6-8|10|1,6-10}
+import Vue from 'vue'
+import Dialog from './Dialog.vue'
+import ClickOutside from '.clickOutside.js'
+import PortalVue from 'portal-vue'
+
+Vue.component('Dialog', Dialog)
+Vue.directive('clickOutside', ClickOutside)
+Vue.use(PortalVue)
+
+new Vue(App).$mount('#app')
+```
+
+  </div>
+  <div class="flex-grow">
+
+```js{all|1|6,11|7-10|7-11}
+import { createApp } from 'vue'
+import Dialog from './Dialog.vue'
+import ClickOutside from '.clickOutside.js'
+import PortalVue from 'portal-vue'
+
+const app = createApp(App)
+app.component('Dialog', Dialog)
+app.directive('clickOutside', ClickOutside)
+app.use(PortalVue)
+
+app.mount('#app')
+```
+
+  </div>
+</div>
+
+---
+
+<style>
+  .slidev-layout td, .slidev-layout th {
+    padding-top: 0.56rem;
+    padding-bottom: 0.56rem;
+  }
+  theader {
+    background: #e5e7eb
+  }
+</style>
+# 生命周期
+
+<div class="mt-1"></div>
+
+| 选项式 API | setup语法糖 |
+| ------- | ------- |
+|    beforeCreate     |    无     |
+|    created     |    无     |
+|    beforeMount     |    onBeforeMount     |
+|    mounted     |    onMounted     |
+|    beforeUpdate     |    onBeforeUpdate     |
+|    updated     |    onUpdated     |
+|    beforeUnmount     |    onBeforeUnmount     |
+|    unmounted     |    onUnmounted     |
 
 ---
 layout: two-cols
@@ -484,72 +550,6 @@ reactive 和 ref
 
 ---
 
-<style>
-  .slidev-layout td, .slidev-layout th {
-    padding-top: 0.56rem;
-    padding-bottom: 0.56rem;
-  }
-  theader {
-    background: #e5e7eb
-  }
-</style>
-# 生命周期
-
-<div class="mt-1"></div>
-
-| 选项式 API | setup语法糖 |
-| ------- | ------- |
-|    beforeCreate     |    无     |
-|    created     |    无     |
-|    beforeMount     |    onBeforeMount     |
-|    mounted     |    onMounted     |
-|    beforeUpdate     |    onBeforeUpdate     |
-|    updated     |    onUpdated     |
-|    beforeUnmount     |    onBeforeUnmount     |
-|    unmounted     |    onUnmounted     |
-
----
-
-# Globale APIs
-
-<div class="flex justify-between">
-  <div class="flex-grow mr-2">
-
-```js{all|1|6-8|10|1,6-10}
-import Vue from 'vue'
-import Dialog from './Dialog.vue'
-import ClickOutside from '.clickOutside.js'
-import PortalVue from 'portal-vue'
-
-Vue.component('Dialog', Dialog)
-Vue.directive('clickOutside', ClickOutside)
-Vue.use(PortalVue)
-
-new Vue(App).$mount('#app')
-```
-
-  </div>
-  <div class="flex-grow">
-
-```js{all|1|6,11|7-10|7-11}
-import { createApp } from 'vue'
-import Dialog from './Dialog.vue'
-import ClickOutside from '.clickOutside.js'
-import PortalVue from 'portal-vue'
-
-const app = createApp(App)
-app.component('Dialog', Dialog)
-app.directive('clickOutside', ClickOutside)
-app.use(PortalVue)
-
-app.mount('#app')
-```
-
-  </div>
-</div>
-
----
-
 # RFC
 
 `<script setup>`语法糖，解决Vue3.0中setup需要频繁将声明的变量、函数以及import引入的内容通过return向外暴露，才能在`<template/>`使用的问题
@@ -600,6 +600,23 @@ app.mount('#app')
   ```
 
   </div>
+</div>
+
+---
+
+# Vue Demo
+
+<div class="overflow-hidden absolute top-24 left-3 text-center">
+  <iframe src="https://sfc.vuejs.org/#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"
+    width="960"
+    height="460"
+    class="-mt-14 mb-2"
+></iframe>
+<a 
+class="text-blue-600 underline"
+href="https://sfc.vuejs.org/#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"
+>
+sfc.vuejs.org</a>
 </div>
 
 ---
