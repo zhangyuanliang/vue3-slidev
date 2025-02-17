@@ -15,7 +15,7 @@ fonts:
 ---
 
 # Vue 3 > Vue 2 + 1
-<div class="mt-1 text-xl text-gray-400">2023年2月12日</div>
+<div class="mt-1 text-xl text-gray-400">2025年2月17日</div>
 
 <style>
 h1 {
